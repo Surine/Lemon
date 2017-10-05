@@ -1,9 +1,6 @@
 <resources>
     <string name="app_name">柠檬</string>
-    <string name="joke">程序员祭天分割线</string>
-    <string name="message">需求总是那么多，不过体验最好就足够！\n\n
-                           \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t【By柠檬】
-    </string>
+    <string name="app_sub_title">让生活更智能</string>
     <string-array name="data_array">
         <item>温度</item>
         <item>湿度</item>
