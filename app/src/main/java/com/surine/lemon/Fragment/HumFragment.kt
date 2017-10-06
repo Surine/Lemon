@@ -7,7 +7,6 @@ package com.surine.lemon.Fragment
 import android.app.Activity
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,9 +42,7 @@ class HumFragment : Fragment() {
     fun onMessageEvent(event: SimpleEvent) {
         val contain = event.message
         if (event.id == 1) {
-            Log.d("MESSGEX", "未过滤" + event.message)
-            if (contain?.contains(UrlData.Hum)!!) {
-                Log.d("MESSGEX", event.message)
+            if (contain?.contains(UrlData.Hum)!! and !(contain?.contains(UrlData.Tem)!!)) {
                 val message = Integer.parseInt(PatternUtil.getNumber(event.message!!)[0]).toFloat()
                 text_recent!!.text = message.toString()
                 addEntry(myChart!!,message)

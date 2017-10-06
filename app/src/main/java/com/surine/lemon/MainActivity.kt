@@ -95,12 +95,12 @@ class MainActivity : BaseActivity() {
         //窗户控制
         windows_ctrl.setOnClickListener {
             if (status){
-                client.sendCmd(UrlData.open)
+                client.sendCmd(UrlData.close)
                 status = false
                 toast("宝宝打开了窗户")
                 windows_ctrl.text = "CLOSE"
             }else{
-                client.sendCmd(UrlData.close)
+                client.sendCmd(UrlData.open)
                 status = true
                 toast("宝宝关闭了窗户")
                 windows_ctrl.text = "OPEN"
@@ -183,8 +183,8 @@ class MainActivity : BaseActivity() {
                     co_text!!.text = "超标" + message
                     playAnimation(co)
                 }
-                message?.contains(UrlData.CAR)!! -> co_text.text = "一氧化碳$message"
-                message?.contains(UrlData.MET)!! -> c2h6_text.text = "湿度$message"
+                message?.contains(UrlData.CAR)!! -> co_text.text = "CO$message"
+                message?.contains(UrlData.MET)!! -> c2h6_text.text = "乙烷$message"
             }
 
         } else if (event.id == 2) {

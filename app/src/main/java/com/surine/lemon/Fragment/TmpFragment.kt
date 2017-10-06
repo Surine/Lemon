@@ -42,7 +42,7 @@ class TmpFragment : Fragment() {
     fun onMessageEvent(event: SimpleEvent) {
         val contain = event.message
         if (event.id == 1) {
-            if (contain?.contains(UrlData.Tem)!!) {
+            if (contain?.contains(UrlData.Tem)!! and !(contain?.contains(UrlData.Hum)!!)) {
                 val message = Integer.parseInt(PatternUtil.getNumber(event.message!!)[0]).toFloat()
                 text_recent!!.text = message.toString()
                 addEntry(myChart!!,message)
