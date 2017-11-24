@@ -24,10 +24,16 @@ class PushCallBack : MqttCallback {
 
     @Throws(Exception::class)
     override fun messageArrived(arg0: String, arg1: MqttMessage) {
+        Log.d("EEE", arg1.toString())
         //信息处理发送
         when{
             String(arg1.payload).contains("lou") or  String(arg1.payload).contains("wangkai19") -> Log.d("E","NULL")
             String(arg1.payload).contains("Fire") -> EventBus.getDefault().post(SimpleEvent(3, String(arg1.payload)))
+            String(arg1.payload).contains("FLAG") ->
+            {
+                EventBus.getDefault().post(SimpleEvent(4, String(arg1.payload)))
+                Log.d("EEE", "数据已发送")
+            }
             else -> EventBus.getDefault().post(SimpleEvent(1, String(arg1.payload)))
         }
     }

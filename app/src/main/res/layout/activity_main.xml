@@ -42,13 +42,15 @@
                 android:background="@drawable/side_nav_bar"
                 android:layout_above="@+id/include"
                 android:layout_alignParentStart="true">
-              <TextView
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:text="柠檬，让你的家庭更智能"
-                  android:gravity="center"
-                  android:id="@+id/title_sub_from_net"
-                  />
+
+                <TextView
+                    android:id="@+id/title_sub_from_net"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="柠檬，让你的家庭更智能"
+                    android:textSize="24sp"
+                    android:textStyle="bold"/>
             </LinearLayout>
             <include
                 android:layout_height="250dp"

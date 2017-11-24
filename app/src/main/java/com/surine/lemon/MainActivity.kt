@@ -1,12 +1,12 @@
 package com.surine.lemon
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetBehavior.STATE_EXPANDED
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.*
@@ -18,7 +18,6 @@ import com.surine.lemon.InitApp.BaseActivity
 import com.surine.lemon.JavaBean.SimpleEvent
 import com.surine.lemon.MQTT.Client
 import com.surine.lemon.Service.WarnService
-import com.surine.lemon.Utils.HttpUtil
 import com.surine.lemon.Utils.PatternUtil
 import de.greenrobot.event.EventBus
 import de.greenrobot.event.Subscribe
@@ -26,11 +25,7 @@ import de.greenrobot.event.ThreadMode
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_data.*
 import kotlinx.android.synthetic.main.content_sheet.*
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.Response
 import org.jetbrains.anko.toast
-import java.io.IOException
 import java.util.*
 
 
@@ -72,25 +67,7 @@ class MainActivity : BaseActivity() {
         //每日一图加载器
         Glide.with(this).load(UrlData.bing_picture).into(imageview)
 
-        //古诗词加载器
-        HttpUtil.get(UrlData.title_).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                toast("网络错误")
-            }
 
-            @SuppressLint("SetTextI18n")
-            @Throws(IOException::class)
-            override fun onResponse(call: Call, response: Response) {
-                var text = "柠檬 Lemon APP —— 让生活更智能"
-                var body = response.body()!!.string()
-                if(body != null){
-                    text = body
-                }
-                runOnUiThread {
-                    title_sub_from_net.text = text.substring(0, text.indexOf("——")) + "\n" + text.substring(text.indexOf("——"))
-                }
-            }
-        })
 
         //窗户控制
         windows_ctrl.setOnClickListener {
@@ -178,7 +155,7 @@ class MainActivity : BaseActivity() {
                 message?.contains(UrlData.Hum)!! and (!message?.contains(UrlData.Tem)) -> hum_text.text = "湿度$message(%)"
                 message?.contains(UrlData.Tem)!!  and (!message?.contains(UrlData.Hum))-> tmp_text.text = "温度$message(℃)"
                 message?.contains(UrlData.LPG)!! -> ch4_text.text = "甲烷$message"
-                message?.contains(UrlData.CAR)!! and (Integer.parseInt(PatternUtil.getNumber(message!!)[0]) > 4) ->
+                message?.contains(UrlData.CAR)!! and (Integer.parseInt(PatternUtil.getNumber(message!!)[0]) > UrlData.co_max) ->
                 {
                     co_text!!.text = "超标" + message
                     playAnimation(co)
@@ -189,6 +166,19 @@ class MainActivity : BaseActivity() {
 
         } else if (event.id == 2) {
             toolbar.subtitle = "设备离线"
+        }else if(event.id == 4){
+            var message = event.message
+            Log.d("EEF", message)
+            when{
+                message?.contains("0")!! -> {
+                    windows_ctrl.text = "OPEN"
+                    title_sub_from_net.text = "当前窗户状态：已关闭"
+                }
+                message?.contains("1")!! -> {
+                    windows_ctrl.text = "CLOSE"
+                    title_sub_from_net.text = "当前窗户状态：已开启"
+                }
+            }
         }
     }
 

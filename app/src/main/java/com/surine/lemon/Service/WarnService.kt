@@ -1,5 +1,6 @@
 package com.surine.lemon.Service
 
+import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
@@ -61,7 +62,7 @@ class WarnService : Service() {
                 //lpg
             } else if (contain.contains(UrlData.CAR)) {
                 //co
-                if (Integer.parseInt(PatternUtil.getNumber(contain)[0]) > 4) {
+                if (Integer.parseInt(PatternUtil.getNumber(contain)[0]) >  UrlData.co_max) {
                     //CO超标
                     intent = Intent(this, MainActivity::class.java)
                     pi = PendingIntent.getActivity(this, 0, intent, 0)
@@ -71,21 +72,10 @@ class WarnService : Service() {
                             .setContentText("您的室内可燃气体超标，请注意开窗通气！")
                             .setWhen(System.currentTimeMillis())
                             .setSmallIcon(R.mipmap.ic_launcher)
+                            .setDefaults(Notification.DEFAULT_ALL)
                             .setFullScreenIntent(pi, true)
-                            .setContentIntent(pi)
                             .build()
-                    manager!!.notify(1, notification)
-                } else {
-                    intent = Intent(this, MainActivity::class.java)
-                    pi = PendingIntent.getActivity(this, 0, intent, 0)
-                    val notification = NotificationCompat.Builder(this)
-                            .setContentTitle("危险气体检测服务正在运行")
-                            .setContentText("为了您的安全请勿轻易停止此服务!")
-                            .setWhen(System.currentTimeMillis())
-                            .setSmallIcon(R.mipmap.ic_launcher)
-                            .setContentIntent(pi)
-                            .build()
-                    manager!!.notify(1, notification)
+                    manager!!.notify(2, notification)
                 }
             } else if (contain.contains(UrlData.MET)) {
                 //met
@@ -103,11 +93,11 @@ class WarnService : Service() {
                         .setContentTitle("危险警告")
                         .setContentText("您的室内存在明火，请注意检查！")
                         .setWhen(System.currentTimeMillis())
+                        .setDefaults(Notification.DEFAULT_ALL)
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setFullScreenIntent(pi, true)
-                        .setContentIntent(pi)
                         .build()
-                manager!!.notify(1, notification)
+                manager!!.notify(3, notification)
             }
         }
     }

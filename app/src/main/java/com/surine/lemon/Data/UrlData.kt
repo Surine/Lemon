@@ -21,6 +21,7 @@ object UrlData {
     var close = "clo"   //关窗
     var inTopic = "inTopic"   //发送
     var outTopic = "outTopic"   //接受
+    var co_max = 15
 
 
     /***********************
